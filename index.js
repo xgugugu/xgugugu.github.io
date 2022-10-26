@@ -12,13 +12,14 @@
             $('body').html('');
             blog();
             break;
-        case '#/blogSub':
-            $('body').html('');
-            blogSub();
-            break;
         default:
-            $('body').html('');
-            jump('#/home');
+            if (location.hash.search('#/blogSub/') != -1) {
+                $('body').html('');
+                blogSub();
+            } else {
+                $('body').html('');
+                location.hash = '#/home';
+            }
             break;
     }
 })();
@@ -28,7 +29,7 @@ function home() {
     $('body')
         .append($('<div></div>')
             .attr('class', 'ui large pointing menu')
-            .css({ 'margin-top': '2%', 'margin-left': '8%', 'margin-right': '8%' })
+            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
             .append($('<a></a>')
                 .attr('class', 'active item')
                 .click(function () {
@@ -59,7 +60,7 @@ function home() {
         )
         .append($('<div></div>')
             .attr('class', 'ui large segment')
-            .css({ 'margin-top': '5%', 'margin-left': '12%', 'margin-right': '12%' })
+            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
             .append($('<div></div>')
                 .attr('class', 'ui two column very relaxed grid')
                 .append($('<img></img>')
@@ -96,7 +97,7 @@ function home() {
         )
         .append($('<div></div>')
             .attr('class', 'ui large segment')
-            .css({ 'margin-top': '3%', 'margin-left': '10%', 'margin-right': '10%' })
+            .css({ 'margin-top': '3%', 'margin-left': '15%', 'margin-right': '15%' })
             .append($('<div></div>')
 
             )
@@ -122,7 +123,7 @@ function blog() {
                                 .css('float', 'left')
                                 .text(blogs[i].title)
                                 .click(function () {
-                                    window.open(`/#/blogSub?id=${$(this).attr('click_id')}`)
+                                    window.open(`/#/blogSub/${$(this).attr('click_id')}`)
                                 })
                             )
                             .append($('<span></span>')
@@ -147,7 +148,7 @@ function blog() {
     $('body')
         .append($('<div></div>')
             .attr('class', 'ui large pointing menu')
-            .css({ 'margin-top': '2%', 'margin-left': '8%', 'margin-right': '8%' })
+            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
             .append($('<a></a>')
                 .attr('class', 'item')
                 .click(function () {
@@ -193,7 +194,7 @@ function blog() {
         )
         .append($('<div></div>')
             .attr('class', 'ui segment')
-            .css({ 'margin-top': '5%', 'margin-left': '12%', 'margin-right': '12%' })
+            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
             .append($('<div></div>')
                 .attr('class', 'ui large relaxed divided list')
                 .attr('id', 'list')
@@ -211,5 +212,71 @@ function blog() {
 }
 
 function blogSub() {
-    document.write(location.search);
+    let id = location.hash.split('#/blogSub/')[1];
+    $('body')
+        .append($('<div></div>')
+            .attr('class', 'ui large pointing menu')
+            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
+            .append($('<a></a>')
+                .attr('class', 'item')
+                .click(function () {
+                    location.hash = '#/home';
+                })
+                .text('主页')
+            )
+            .append($('<a></a>')
+                .attr('class', 'active item')
+                .click(function () {
+                    location.hash = '#/blog';
+                })
+                .text('文章')
+            )
+            .append($('<div></div>')
+                .attr('class', 'right menu')
+                .append($('<div></div>')
+                    .attr('class', 'item')
+                    .append($('<button></button>')
+                        .attr('class', 'ui button')
+                        .click(function () {
+                            location.href = 'https://github.com/xgugugu/';
+                        })
+                        .text('Github')
+                    )
+                )
+            )
+        )
+        .append($('<div></div>')
+            .attr('class', 'ui segment')
+            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
+            .append($('<div></div>')
+                .attr('class', 'ui segment')
+                .append($('<h></h>')
+                    .attr('class', 'ui big header')
+                    .attr('id', 'title')
+                    .css('float', 'left')
+                )
+                .append($('<em></em>')
+                    .attr('class', 'ui text')
+                    .attr('id', 'id')
+                    .css('margin-left', '20px')
+                )
+            )
+            .append($('<div></div>')
+                .attr('class', 'ui segment')
+                .attr('id', 'content')
+            )
+            .ready(function () {
+                $.get(`https://api.github.com/repos/xgugugu/xgugugu.github.io/issues/${id}`, function (json, status) {
+                    marked.setOptions({
+                        highlight: function (code) {
+                            return hljs.highlightAuto(code).value;
+                        }
+                    });
+                    $('#title').text(json.title).removeAttr('id');
+                    $('#id').text(`#${json.number}`).removeAttr('id');
+                    $('#content').html(marked.parse(json.body)).removeAttr('id');
+                    $('img').css({'border': 'none', 'max-width': '70%'})
+                });
+            })
+        )
 }
