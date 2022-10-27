@@ -63,10 +63,15 @@ function home() {
             .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
             .append($('<div></div>')
                 .attr('class', 'ui two column very relaxed grid')
-                .append($('<img></img>')
-                    .attr('class', 'ui small bordered image')
-                    .css('padding', '0px')
-                    .attr('src', 'https://avatars.githubusercontent.com/u/85472190?v=4')
+                .append($('<div></div>')
+                    .append($('<p></p>')
+                        .append($('<img></img>')
+                            .attr('class', 'ui small bordered image')
+                            .css('margin', '5px')
+                            .css('margin-left', '10px')
+                            .attr('src', 'https://avatars.githubusercontent.com/u/85472190?v=4')
+                        )
+                    )
                 )
                 .append($('<div></div>')
                     .attr('class', 'column')
@@ -275,7 +280,7 @@ function blogSub() {
                     $('#title').text(json.title).removeAttr('id');
                     $('#id').text(`#${json.number}`).removeAttr('id');
                     $('#content').html(marked.parse(json.body)).removeAttr('id');
-                    $('img').css({'border': 'none', 'max-width': '70%'})
+                    $('img').css({ 'border': 'none', 'max-width': '70%' })
                 });
             })
         )
