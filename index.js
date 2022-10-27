@@ -217,6 +217,7 @@ function blog() {
 }
 
 function blogSub() {
+    document.title = '文章 - Xgugugu';
     let id = location.hash.split('#/blogSub/')[1];
     $('body')
         .append($('<div></div>')
