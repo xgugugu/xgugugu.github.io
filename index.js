@@ -270,7 +270,7 @@ function code() {
             }
         });
         for (let i in json) {
-            let content = json[i].title + '\n\n' + marked.parse(json[i].body);
+            let content = json[i].name + '\n\n' + marked.parse(json[i].body);
             if (content.search(search) != -1) {
                 $('#code')
                     .append($('<div></div>')
