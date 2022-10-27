@@ -295,9 +295,9 @@ function code() {
         .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui segment')
+            .css({ 'margin-top': '5%', 'margin-left': '14%', 'margin-right': '14%' })
             .append($('<div></div>')
                 .attr('class', 'ui cards')
-                .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
                 .attr('id', 'code')
                 .ready(function () {
                     $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases', function (body, status) {
