@@ -12,6 +12,10 @@
             $('body').html('');
             blog();
             break;
+        case '#/code':
+            $('body').html('');
+            code();
+            break;
         default:
             if (location.hash.search('#/blogSub/') != -1) {
                 $('body').html('');
@@ -24,40 +28,74 @@
     }
 })();
 
-function home() {
-    document.title = '主页 - Xgugugu';
-    $('body')
+function menu() {
+    return $('<div></div>')
+        .attr('class', 'ui large secondary pointing menu')
+        .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
+        .append($('<a></a>')
+            .attr('class', 'item')
+            .attr('id', 'menu1')
+            .click(function () {
+                location.hash = '#/home';
+            })
+            .text('主页')
+        )
+        .append($('<a></a>')
+            .attr('class', 'item')
+            .attr('id', 'menu2')
+            .click(function () {
+                location.hash = '#/blog';
+            })
+            .text('文章')
+        )
+        .append($('<a></a>')
+            .attr('class', 'item')
+            .attr('id', 'menu3')
+            .click(function () {
+                location.hash = '#/code';
+            })
+            .text('代码')
+        )
         .append($('<div></div>')
-            .attr('class', 'ui large pointing menu')
-            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
-            .append($('<a></a>')
-                .attr('class', 'active item')
-                .click(function () {
-                    location.hash = '#/home';
-                })
-                .text('主页')
-            )
-            .append($('<a></a>')
-                .attr('class', 'item')
-                .click(function () {
-                    location.hash = '#/blog';
-                })
-                .text('文章')
+            .attr('class', 'ui simple dropdown item')
+            .text('更多')
+            .append($('<i></i>')
+                .attr('class', 'dropdown icon')
             )
             .append($('<div></div>')
-                .attr('class', 'right menu')
+                .attr('class', 'menu')
                 .append($('<div></div>')
                     .attr('class', 'item')
-                    .append($('<button></button>')
-                        .attr('class', 'ui button')
-                        .click(function () {
-                            location.href = 'https://github.com/xgugugu/';
-                        })
-                        .text('Github')
-                    )
+                    .text('好康的')
+                    .click(function () {
+                        window.open('https://xgugugu.github.io/yw/')
+                    })
+                )
+                .append($('<div></div>')
+                    .attr('class', 'item')
+                    .text('OI题')
                 )
             )
         )
+        .append($('<div></div>')
+            .attr('class', 'right menu')
+            .append($('<div></div>')
+                .attr('class', 'item')
+                .append($('<button></button>')
+                    .attr('class', 'ui button')
+                    .click(function () {
+                        location.href = 'https://github.com/xgugugu/';
+                    })
+                    .text('Github')
+                )
+            )
+        );
+}
+
+function home() {
+    document.title = '主页 - Xgugugu';
+    $('body')
+        .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui large segment')
             .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
@@ -99,14 +137,8 @@ function home() {
                     });
                 })
             )
-        )
-        .append($('<div></div>')
-            .attr('class', 'ui large segment')
-            .css({ 'margin-top': '3%', 'margin-left': '15%', 'margin-right': '15%' })
-            .append($('<div></div>')
-
-            )
         );
+    $('#menu1').attr('class', 'active item');
 }
 
 function blog() {
@@ -151,52 +183,7 @@ function blog() {
         }
     }
     $('body')
-        .append($('<div></div>')
-            .attr('class', 'ui large pointing menu')
-            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
-            .append($('<a></a>')
-                .attr('class', 'item')
-                .click(function () {
-                    location.hash = '#/home';
-                })
-                .text('主页')
-            )
-            .append($('<a></a>')
-                .attr('class', 'active item')
-                .click(function () {
-                    location.hash = '#/blog';
-                })
-                .text('文章')
-            )
-            .append($('<div></div>')
-                .attr('class', 'right menu')
-                .append($('<div></div>')
-                    .attr('class', 'item')
-                    .append($('<div></div>')
-                        .attr('class', 'ui transparent icon input')
-                        .append($('<input></input>')
-                            .attr('class', 'prompt')
-                            .attr('type', 'text')
-                            .attr('placeholder', '搜索...')
-                            .bind('input', function () {
-                                search = $(this).val();
-                                refresh();
-                            })
-                        )
-                    )
-                )
-                .append($('<div></div>')
-                    .attr('class', 'item')
-                    .append($('<button></button>')
-                        .attr('class', 'ui button')
-                        .click(function () {
-                            location.href = 'https://github.com/xgugugu/';
-                        })
-                        .text('Github')
-                    )
-                )
-            )
-        )
+        .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui segment')
             .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
@@ -213,44 +200,31 @@ function blog() {
                     });
                 })
             )
-        )
+        );
+    $('.right.menu')
+        .prepend($('<div></div>')
+            .attr('class', 'item')
+            .append($('<div></div>')
+                .attr('class', 'ui transparent icon input')
+                .append($('<input></input>')
+                    .attr('class', 'prompt')
+                    .attr('type', 'text')
+                    .attr('placeholder', '搜索...')
+                    .bind('input', function () {
+                        search = $(this).val();
+                        refresh();
+                    })
+                )
+            )
+        );
+    $('#menu2').attr('class', 'active item');
 }
 
 function blogSub() {
     document.title = '文章 - Xgugugu';
     let id = location.hash.split('#/blogSub/')[1];
     $('body')
-        .append($('<div></div>')
-            .attr('class', 'ui large pointing menu')
-            .css({ 'margin-top': '2%', 'margin-left': '12%', 'margin-right': '12%' })
-            .append($('<a></a>')
-                .attr('class', 'item')
-                .click(function () {
-                    location.hash = '#/home';
-                })
-                .text('主页')
-            )
-            .append($('<a></a>')
-                .attr('class', 'active item')
-                .click(function () {
-                    location.hash = '#/blog';
-                })
-                .text('文章')
-            )
-            .append($('<div></div>')
-                .attr('class', 'right menu')
-                .append($('<div></div>')
-                    .attr('class', 'item')
-                    .append($('<button></button>')
-                        .attr('class', 'ui button')
-                        .click(function () {
-                            location.href = 'https://github.com/xgugugu/';
-                        })
-                        .text('Github')
-                    )
-                )
-            )
-        )
+        .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui segment')
             .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
@@ -281,5 +255,70 @@ function blogSub() {
                     $('img').css({ 'border': 'none', 'max-width': '70%' })
                 });
             })
-        )
+        );
+    $('#menu2').attr('class', 'active item');
+}
+
+function code() {
+    document.title = '代码 - Xgugugu';
+    let json = [], search = '';
+    function refresh() {
+        $('#code').empty();
+        marked.setOptions({
+            highlight: function (code) {
+                return hljs.highlightAuto(code).value;
+            }
+        });
+        for (let i in json) {
+            let content = json[i].title + '\n\n' + marked.parse(json[i].body);
+            if (content.search(search) != -1) {
+                $('#code')
+                    .append($('<div></div>')
+                        .attr('class', 'ui card')
+                        .append($('<div></div>')
+                            .attr('class', 'content')
+                            .append($('<div></div>')
+                                .attr('class', 'header')
+                                .text(json[i].name)
+                            )
+                        )
+                        .append($('<div></div>')
+                            .attr('class', 'content')
+                            .html(marked.parse(json[i].body))
+                        )
+                    );
+            }
+        }
+        $('pre').attr('style', 'white-space: pre-wrap!important;');
+    }
+    $('body')
+        .append(menu())
+        .append($('<div></div>')
+            .attr('class', 'ui segment')
+            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
+            .attr('id', 'code')
+            .ready(function () {
+                $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases', function (body, status) {
+                    json = body;
+                    refresh();
+                })
+            })
+        );
+    $('.right.menu')
+        .prepend($('<div></div>')
+            .attr('class', 'item')
+            .append($('<div></div>')
+                .attr('class', 'ui transparent icon input')
+                .append($('<input></input>')
+                    .attr('class', 'prompt')
+                    .attr('type', 'text')
+                    .attr('placeholder', '搜索...')
+                    .bind('input', function () {
+                        search = $(this).val();
+                        refresh();
+                    })
+                )
+            )
+        );
+    $('#menu3').attr('class', 'active item');
 }
