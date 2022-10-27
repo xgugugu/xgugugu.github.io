@@ -68,12 +68,22 @@ function menu() {
                     .attr('class', 'item')
                     .text('好康的')
                     .click(function () {
-                        window.open('https://xgugugu.github.io/yw/')
+                        window.open('https://xgugugu.github.io/yw/');
                     })
                 )
                 .append($('<div></div>')
                     .attr('class', 'item')
                     .text('OI题')
+                    .click(function () {
+                        window.open('https://xgugugu.github.io/problem/');
+                    })
+                )
+                .append($('<div></div>')
+                    .attr('class', 'item')
+                    .text('图床')
+                    .click(function () {
+                        window.open('https://postimages.org/');
+                    })
                 )
             )
         )
