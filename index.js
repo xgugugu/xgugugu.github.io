@@ -404,6 +404,9 @@ function code() {
                 .ready(function () {
                     $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases?per_page=10000', function (body, status) {
                         json = body;
+                        json.sort(function (x, y) {
+                            return x.body.length - y.body.length;
+                        });
                         refresh();
                     });
                 })
