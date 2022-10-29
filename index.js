@@ -168,13 +168,8 @@ function repo() {
     let json = [], search = '';
     function refresh() {
         $('#repo').empty();
-        marked.setOptions({
-            highlight: function (code) {
-                return hljs.highlightAuto(code).value;
-            }
-        });
         for (let i in json) {
-            let content = json[i].full_name + '  ' + json[i].description;
+            let content = json[i].content.replace(/<[^>]*>/g, '');
             if (content.search(search) != -1) {
                 $('#repo')
                     .append($('<div></div>')
@@ -191,17 +186,7 @@ function repo() {
                         )
                         .append($('<div></div>')
                             .attr('class', 'content')
-                            .append((function () {
-                                let description = '';
-                                if (json[i].description != null)
-                                    description += `${json[i].description}\n\n---\n`;
-                                if (json[i].language != null)
-                                    description += `[${json[i].language}](${json[i].html_url}/search?l=${encodeURIComponent(json[i].language)})  `;
-                                if (json[i].license != null)
-                                    description += `[${json[i].license.spdx_id}](${json[i].html_url}/blob/main/LICENSE)  `;
-                                description += `<br>Updated at ${new Date(json[i].updated_at).toLocaleString()}`;
-                                return marked.parse(description);
-                            })())
+                            .append(json[i].content)
                         )
                     );
             }
@@ -219,6 +204,24 @@ function repo() {
                 .ready(function () {
                     $.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=updated', function (body, status) {
                         json = body;
+                        marked.setOptions({
+                            highlight: function (code) {
+                                return hljs.highlightAuto(code).value;
+                            }
+                        });
+                        for (let i in json) {
+                            json[i]['content'] = (function () {
+                                let description = '';
+                                if (json[i].description != null)
+                                    description += `${json[i].description}\n\n---\n`;
+                                if (json[i].language != null)
+                                    description += `[${json[i].language}](${json[i].html_url}/search?l=${encodeURIComponent(json[i].language)})  `;
+                                if (json[i].license != null)
+                                    description += `[${json[i].license.spdx_id}](${json[i].html_url}/blob/main/LICENSE)  `;
+                                description += `<br>Updated at ${new Date(json[i].updated_at).toLocaleString()}`;
+                                return marked.parse(description);
+                            })();
+                        }
                         refresh();
                     });
                 })
@@ -249,7 +252,7 @@ function blog() {
     function refresh() {
         let list = $('#list').empty();
         for (let i in blogs) {
-            let content = blogs[i].title + '\n\n' + marked.parse(blogs[i].body);
+            let content = `${blogs[i].title} ${new Date(blogs[i].updated_at).toLocaleString()} ${blogs[i].body} #${blogs[i].number}`;
             if (content.search(search) != -1) {
                 list.append($('<div></div>')
                     .attr('class', 'item')
@@ -295,6 +298,9 @@ function blog() {
                 .ready(function () {
                     $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/issues?creator=xgugugu&state=open&per_page=10000', function (json, status) {
                         blogs = json;
+                        for (let i in blogs) {
+                            blogs[i].body = marked.parse(blogs[i].body).replace(/<[^>]*>/g, '');
+                        }
                         blogs.sort(function (x, y) {
                             return Date.parse(y.updated_at) - Date.parse(x.updated_at);
                         });
@@ -366,13 +372,8 @@ function code() {
     let json = [], search = '';
     function refresh() {
         $('#code').empty();
-        marked.setOptions({
-            highlight: function (code) {
-                return hljs.highlightAuto(code).value;
-            }
-        });
         for (let i in json) {
-            let content = json[i].name + '\n\n' + marked.parse(json[i].body);
+            let content = json[i].name + '\n\n' + json[i].body.replace(/<[^>]*>/g, '');
             if (content.search(search) != -1) {
                 $('#code')
                     .append($('<div></div>')
@@ -386,7 +387,7 @@ function code() {
                         )
                         .append($('<div></div>')
                             .attr('class', 'content')
-                            .html(marked.parse(json[i].body))
+                            .html(json[i].body)
                         )
                     );
             }
@@ -404,6 +405,14 @@ function code() {
                 .ready(function () {
                     $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases?per_page=10000', function (body, status) {
                         json = body;
+                        marked.setOptions({
+                            highlight: function (code) {
+                                return hljs.highlightAuto(code).value;
+                            }
+                        });
+                        for (let i in json) {
+                            json[i].body = marked.parse(json[i].body);
+                        }
                         json.sort(function (x, y) {
                             return x.body.length - y.body.length;
                         });
