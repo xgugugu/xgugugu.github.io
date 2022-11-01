@@ -120,7 +120,7 @@ function home() {
         .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui large segment')
-            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
+            .css({ 'margin-top': '5%', 'margin-left': '14%', 'margin-right': '14%' })
             .append($('<div></div>')
                 .attr('class', 'ui two column very relaxed grid')
                 .append($('<div></div>')
@@ -196,36 +196,33 @@ function repo() {
     $('body')
         .append(menu())
         .append($('<div></div>')
-            .attr('class', 'ui segment')
+            .attr('class', 'ui cards')
             .css({ 'margin-top': '5%', 'margin-left': '14%', 'margin-right': '14%' })
-            .append($('<div></div>')
-                .attr('class', 'ui cards')
-                .attr('id', 'repo')
-                .ready(function () {
-                    $.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=updated', function (body, status) {
-                        json = body;
-                        marked.setOptions({
-                            highlight: function (code) {
-                                return hljs.highlightAuto(code).value;
-                            }
-                        });
-                        for (let i in json) {
-                            json[i]['content'] = (function () {
-                                let description = '';
-                                if (json[i].description != null)
-                                    description += `${json[i].description}\n\n---\n`;
-                                if (json[i].language != null)
-                                    description += `[${json[i].language}](${json[i].html_url}/search?l=${encodeURIComponent(json[i].language)})  `;
-                                if (json[i].license != null)
-                                    description += `[${json[i].license.spdx_id}](${json[i].html_url}/blob/main/LICENSE)  `;
-                                description += `<br>Updated at ${new Date(json[i].updated_at).toLocaleString()}`;
-                                return marked.parse(description);
-                            })();
+            .attr('id', 'repo')
+            .ready(function () {
+                $.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=updated', function (body, status) {
+                    json = body;
+                    marked.setOptions({
+                        highlight: function (code) {
+                            return hljs.highlightAuto(code).value;
                         }
-                        refresh();
                     });
-                })
-            )
+                    for (let i in json) {
+                        json[i]['content'] = (function () {
+                            let description = '';
+                            if (json[i].description != null)
+                                description += `${json[i].description}\n\n---\n`;
+                            if (json[i].language != null)
+                                description += `[${json[i].language}](${json[i].html_url}/search?l=${encodeURIComponent(json[i].language)})  `;
+                            if (json[i].license != null)
+                                description += `[${json[i].license.spdx_id}](${json[i].html_url}/blob/main/LICENSE)  `;
+                            description += `<br>Updated at ${new Date(json[i].updated_at).toLocaleString()}`;
+                            return marked.parse(description);
+                        })();
+                    }
+                    refresh();
+                });
+            })
         );
     $('.right.menu')
         .prepend($('<div></div>')
@@ -291,7 +288,7 @@ function blog() {
         .append(menu())
         .append($('<div></div>')
             .attr('class', 'ui segment')
-            .css({ 'margin-top': '5%', 'margin-left': '15%', 'margin-right': '15%' })
+            .css({ 'margin-top': '5.5%', 'margin-left': '14.5%', 'margin-right': '14.5%' })
             .append($('<div></div>')
                 .attr('class', 'ui large relaxed divided list')
                 .attr('id', 'list')
@@ -397,29 +394,26 @@ function code() {
     $('body')
         .append(menu())
         .append($('<div></div>')
-            .attr('class', 'ui segment')
+            .attr('class', 'ui cards')
             .css({ 'margin-top': '5%', 'margin-left': '14%', 'margin-right': '14%' })
-            .append($('<div></div>')
-                .attr('class', 'ui cards')
-                .attr('id', 'code')
-                .ready(function () {
-                    $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases?per_page=10000', function (body, status) {
-                        json = body;
-                        marked.setOptions({
-                            highlight: function (code) {
-                                return hljs.highlightAuto(code).value;
-                            }
-                        });
-                        for (let i in json) {
-                            json[i].body = marked.parse(json[i].body);
+            .attr('id', 'code')
+            .ready(function () {
+                $.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases?per_page=10000', function (body, status) {
+                    json = body;
+                    marked.setOptions({
+                        highlight: function (code) {
+                            return hljs.highlightAuto(code).value;
                         }
-                        json.sort(function (x, y) {
-                            return x.body.length - y.body.length;
-                        });
-                        refresh();
                     });
-                })
-            )
+                    for (let i in json) {
+                        json[i].body = marked.parse(json[i].body);
+                    }
+                    json.sort(function (x, y) {
+                        return x.body.length - y.body.length;
+                    });
+                    refresh();
+                });
+            })
         );
     $('.right.menu')
         .prepend($('<div></div>')
