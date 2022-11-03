@@ -178,7 +178,13 @@ function repo() {
                             .attr('class', 'content')
                             .append($('<a></a>')
                                 .attr('class', 'header')
-                                .text(json[i].full_name)
+                                .text(function () {
+                                    if (json[i].archived) {
+                                        return json[i].full_name + ' (archive)';
+                                    } else {
+                                        return json[i].full_name;
+                                    }
+                                })
                                 .click(function () {
                                     window.open(json[i].html_url);
                                 })
@@ -200,7 +206,7 @@ function repo() {
             .css({ 'margin-top': '5%', 'margin-left': '14%', 'margin-right': '14%' })
             .attr('id', 'repo')
             .ready(function () {
-                $.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=updated', function (body, status) {
+                $.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=pushed', function (body, status) {
                     json = body;
                     marked.setOptions({
                         highlight: function (code) {
@@ -216,7 +222,7 @@ function repo() {
                                 description += `[${json[i].language}](${json[i].html_url}/search?l=${encodeURIComponent(json[i].language)})  `;
                             if (json[i].license != null)
                                 description += `[${json[i].license.spdx_id}](${json[i].html_url}/blob/main/LICENSE)  `;
-                            description += `<br>Updated at ${new Date(json[i].updated_at).toLocaleString()}`;
+                            description += `<br>Updated at ${new Date(json[i].pushed_at).toLocaleString()}`;
                             return marked.parse(description);
                         })();
                     }
