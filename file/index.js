@@ -17,7 +17,7 @@ window.onhashchange = function () {
                         )
                         .append($('<td></td>')
                             .append($('<a></a>')
-                                .attr('href', `/#/${0, path.substring(path.lastIndexOf('/') + 1)}`)
+                                .attr('href', `https://xgugugu.github.io/file/#/${0, path.substring(path.lastIndexOf('/') + 1)}`)
                                 .text('..')
                             )
                         )
@@ -36,7 +36,7 @@ window.onhashchange = function () {
                                     if (json[i].type == 'file') {
                                         return `https://xgugugu.github.io/${json[i].path}`;
                                     } else {
-                                        return `/#/${json[i].path}/`;
+                                        return `https://xgugugu.github.io/file/#/${json[i].path}/`;
                                     }
                                 })())
                                 .text(json[i].name)
