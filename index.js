@@ -97,6 +97,13 @@ function menu() {
                         window.open('https://postimages.org/');
                     })
                 )
+                .append($('<div></div>')
+                    .attr('class', 'item')
+                    .text('文件')
+                    .click(function () {
+                        window.open('https://xgugugu.github.io/file/');
+                    })
+                )
             )
         )
         .append($('<div></div>')
