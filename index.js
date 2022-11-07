@@ -176,7 +176,7 @@ function repo() {
     function refresh() {
         $('#repo').empty();
         for (let i in json) {
-            let content = json[i].content.replace(/<[^>]*>/g, '');
+            let content = json[i].full_name + json[i].content.replace(/<[^>]*>/g, '');
             if (content.search(search) != -1) {
                 $('#repo')
                     .append($('<div></div>')
