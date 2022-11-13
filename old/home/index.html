@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Xguguguの 小站</title>
+	<script src="jquery.min.js"></script>
+	<script src="semantic.min.js"></script>
+	<link href="semantic.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="ui large pointing menu">
+		<a href="" class="active item">主页</a>
+		<a href="https://xgugugu.github.io/blog/" class="item">文章</a>
+		<div class="right menu">
+			<div class="item">
+				<button class="ui button" onclick="window.location.href='https://github.com/xgugugu'">
+					Github
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="ui large segment">
+		<div class="ui two column very relaxed grid">
+			<div>
+				<p>
+					<img class="ui small bordered image" src="https://avatars.githubusercontent.com/u/85472190?v=4"></img>
+				</p>
+			</div>
+			<div class="column">
+				<p><span class="ui large text">Xgugugu</span></p>
+				<p id="描述">
+					Loading...
+				</p>
+				<p id="统计">
+					
+				</p>
+			</div>
+		</div>
+		<!div class="ui vertical divider"></div>
+	</div>
+	<div class="ui large segment">
+		<p><strong><span class="ui large text">欢迎来到 Xguguguの 小站</span></strong></p>
+		<p>本站的诞生离不开以下开源项目：</p>
+		<ul>
+			<li><a href="https://jquery.com/">jQuery</a></li>
+			<li><a href="https://github.com/markedjs/marked">marked</a></li>
+			<li><a href="https://highlightjs.org/">highlight.js</a></li>
+			<li><a href="https://semantic-ui.com/">Semantic UI</a></li>
+		</ul>
+		<p>本站代码基于 <a href="https://github.com/xgugugu/home/blob/main/LICENSE">MIT License</a> 开源</p>
+		<p>您可以在 Github 内找到本站的源代码</p>
+	</div>
+	<script>
+		function httpGet(url, callback) {
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function() { 
+				if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+					callback(xmlHttp.responseText);
+				}
+			}
+			xmlHttp.open("GET", url, true);
+			xmlHttp.send(null);
+		}
+		httpGet('https://api.github.com/users/xgugugu', function(text) {
+			var json =  JSON.parse(text);
+			document.getElementById('描述').innerHTML = 
+				json.bio + '<br>Live in ' + json.location;
+			document.getElementById('统计').innerHTML = 
+				json.public_repos.toString() + ' repositories · ' + json.followers.toString() + ' followers · ' + json.following.toString() + ' followings';
+		});
+	</script>
+</body>
+</html>
