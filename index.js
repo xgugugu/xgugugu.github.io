@@ -85,13 +85,6 @@ function menu() {
                 )
                 .append($('<div></div>')
                     .attr('class', 'item')
-                    .text('OI题')
-                    .click(function () {
-                        window.open('https://xgugugu.github.io/problem/');
-                    })
-                )
-                .append($('<div></div>')
-                    .attr('class', 'item')
                     .text('图床')
                     .click(function () {
                         window.open('https://postimages.org/');
