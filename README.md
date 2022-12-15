@@ -15,19 +15,3 @@
 ### 旧版
 
 曾经的 [xgugugu/home](https://github.com/xgugugu/home) 和 [xgugugu/blog](https://github.com/xgugugu/blog) 的网页代码已全部移至 [old](https://github.com/xgugugu/xgugugu.github.io/tree/main/old) 目录
-
-### 分支
-
-不论是否fork本仓库，所有使用本仓库代码（包括旧版）的仓库及其分支均被视为本仓库代码的分支
-
-目前已知的分支有：
-
-- [BaoSiYuanCODE/BaoSiYuanCODE.github.io](https://github.com/BaoSiYuanCODE/BaoSiYuanCODE.github.io)
-
-- [WP-Studio01/freedom](https://github.com/WP-Studio01/freedom)
-
-  - [codejiangqihan/freedom](https://github.com/codejiangqihan/freedom)
-
-- [WP-Studio01/home](https://github.com/WP-Studio01/home)
-
-- [WP-Studio01/blog](https://github.com/WP-Studio01/blog)
