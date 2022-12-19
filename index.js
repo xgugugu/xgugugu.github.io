@@ -304,9 +304,6 @@ function blog() {
                         for (let i in blogs) {
                             blogs[i].body = marked.parse(blogs[i].body).replace(/<[^>]*>/g, '');
                         }
-                        blogs.sort(function (x, y) {
-                            return Date.parse(y.updated_at) - Date.parse(x.updated_at);
-                        });
                         refresh();
                     });
                 })
