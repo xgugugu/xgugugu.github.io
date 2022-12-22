@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow: hidden; height: 100%;" class="dark">
+<html style="overflow: hidden; height: 100%;">
 
 <head>
     <meta charset="utf-8">
@@ -18,14 +18,15 @@
     <div id="app" style="height: 100%;">
         <el-container style="height: 100vh;">
             <el-header style="margin-top: 2%; margin-left: 15%; margin-right: 15%;">
-                <el-menu router :default-active="$route.path" mode="horizontal" :ellipsis="false">
+                <el-menu router :default-active="($route.path+'      ').substring(0,6)" mode="horizontal"
+                    :ellipsis="false">
                     <el-menu-item index="/home/" style="font-size: 16px;">主页</el-menu-item>
                     <el-menu-item index="/repo/" style="font-size: 16px;">仓库</el-menu-item>
                     <el-menu-item index="/blog/" style="font-size: 16px;">文章</el-menu-item>
                     <el-menu-item index="/code/" style="font-size: 16px;">代码</el-menu-item>
                 </el-menu>
             </el-header>
-            <el-main style="margin-top: 1%; margin-left: 14%; margin-right: 14%; margin-bottom: 5%;">
+            <el-main style="overflow: hidden; margin-top: 1%; margin-left: 14%; margin-right: 14%; margin-bottom: 5%;">
                 <router-view></router-view>
             </el-main>
         </el-container>
@@ -67,7 +68,26 @@
         </el-scrollbar>
     </template>
     <template id="blog">
-
+        <div style="height: 100%;">
+            <el-input v-model="search">
+                <template #prepend>
+                    <el-button style="width: 55px;" @click="showList=!showList">≡</el-button>
+                </template>
+            </el-input>
+            <el-menu @select="selectBlog" :default-active="issueId" :collapse-transition="false" :collapse="!showList"
+                :style="showList?'':'width: 56px; float: left;'">
+                <el-menu-item style="height: 40px;" v-for="i in json" :index="i.number">
+                    <template #title> {{ i.title }} </template>
+                    {{ `#${i.number}` }}
+                </el-menu-item>
+            </el-menu>
+            <el-scrollbar>
+                <el-card v-show="!showList" shadow="never" style="padding-bottom: 50px;">
+                    <div class="markdown-body" v-html="issueHtml"></div>
+                    <el-empty v-if="issueHtml==''" />
+                </el-card>
+            </el-scrollbar>
+        </div>
     </template>
     <template id="code">
 
@@ -94,14 +114,14 @@
                             }
                         },
                         mounted() {
-                            axios.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=pushed')
+                            axios.get('https://api.github.com/users/xgugugu/repos?per_page=100&sort=pushed')
                                 .then(response => (this.json = response.data))
                                 .catch(function (error) {
                                     ElementPlus.ElMessage.error(`列表获取失败：${error}`);
                                 });
                         },
                         methods: {
-                            marked: function (str) {
+                            marked(str) {
                                 return marked.parse(str);
                             }
                         },
@@ -109,7 +129,46 @@
                     }
                 },
                 {
-                    path: '/blog/', component: {
+                    path: '/blog/:id?', component: {
+                        data() {
+                            return {
+                                showList: true,
+                                search: '',
+                                issueId: parseInt(this.$route.params.id),
+                                json: [],
+                                issueHtml: ''
+                            }
+                        },
+                        mounted() {
+                            this.showList = (this.id == 0);
+                            axios.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/issues?creator=xgugugu&state=open&per_page=100')
+                                .then((res) => {
+                                    this.json = res.data;
+                                    for (let i in this.json) {
+                                        if (this.json[i].number == this.issueId) {
+                                            this.issueHtml = marked.parse(this.json[i].body);
+                                            break;
+                                        }
+                                    }
+                                }).catch(function (error) {
+                                    ElementPlus.ElMessage.error(`列表获取失败：${error}`);
+                                });
+                        },
+                        methods: {
+                            marked(str) {
+                                return marked.parse(str);
+                            },
+                            selectBlog(id) {
+                                router.push(`/blog/${id}`);
+                                this.showList = (id == 0);
+                                for (let i in this.json) {
+                                    if (this.json[i].number == id) {
+                                        this.issueHtml = marked.parse(this.json[i].body);
+                                        break;
+                                    }
+                                }
+                            }
+                        },
                         template: '#blog'
                     }
                 },
