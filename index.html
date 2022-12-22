@@ -42,7 +42,7 @@
                             <el-link :href="i.html_url" :underline="false">
                                 <div style="float: left; font-size: 16px;"> {{ i.full_name }} </div>
                             </el-link>
-                            <el-tag disable-transitions v-if="i.archived" type="warning" size="small"
+                            <el-tag disable-transitions round v-if="i.archived" type="warning" size="small"
                                 style="float: right; margin-left: 3px;"> archive </el-tag>
                         </template>
                         <div v-if="i.description!=null" style="font-size: 15px; margin-bottom: 10px;"
