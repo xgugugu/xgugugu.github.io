@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/4.1.6/vue-router.global.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/4.1.6/vue-router.global.prod.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.full.min.js"></script>
     <link href="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.1/axios.min.js"></script>
@@ -43,7 +43,7 @@
                                 <div style="float: left; font-size: 16px;"> {{ i.full_name }} </div>
                             </el-link>
                             <el-tag disable-transitions round v-if="i.archived" type="warning" size="small"
-                                style="float: right; margin-left: 3px;"> archive </el-tag>
+                                style="float: right;"> archive </el-tag>
                         </template>
                         <div v-if="i.description!=null" style="font-size: 15px; margin-bottom: 10px;"
                             class="markdown-body" v-html="marked(i.description)"> </div>
