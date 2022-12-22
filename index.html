@@ -1,15 +1,135 @@
-<html>
+<!DOCTYPE html>
+<html style="overflow: hidden; height: 100%;" class="dark">
 
 <head>
     <meta charset="utf-8">
     <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/4.1.6/vue-router.global.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.full.min.js"></script>
     <link href="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/marked/4.2.4/marked.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css"
+        rel="stylesheet">
+    <base target="_blank">
 </head>
 
-<body>
+<body style="height: 100%;">
+    <div id="app" style="height: 100%;">
+        <el-container style="height: 100vh;">
+            <el-header style="margin-top: 2%; margin-left: 15%; margin-right: 15%;">
+                <el-menu router :default-active="$route.path" mode="horizontal" :ellipsis="false">
+                    <el-menu-item index="/home/" style="font-size: 16px;">主页</el-menu-item>
+                    <el-menu-item index="/repo/" style="font-size: 16px;">仓库</el-menu-item>
+                    <el-menu-item index="/blog/" style="font-size: 16px;">文章</el-menu-item>
+                    <el-menu-item index="/code/" style="font-size: 16px;">代码</el-menu-item>
+                </el-menu>
+            </el-header>
+            <el-main style="margin-top: 1%; margin-left: 14%; margin-right: 14%; margin-bottom: 5%;">
+                <router-view></router-view>
+            </el-main>
+        </el-container>
+    </div>
+    <template id="home">
 
+    </template>
+    <template id="repo">
+        <el-scrollbar>
+            <el-row style="margin: 10px;">
+                <el-col :span="8" v-for="i in json">
+                    <el-card style="margin: 10px;">
+                        <template #header>
+                            <el-link :href="i.html_url" :underline="false">
+                                <div style="float: left; font-size: 16px;"> {{ i.full_name }} </div>
+                            </el-link>
+                            <el-tag disable-transitions v-if="i.archived" type="warning" size="small"
+                                style="float: right; margin-left: 3px;"> archive </el-tag>
+                        </template>
+                        <div v-if="i.description!=null" style="font-size: 15px; margin-bottom: 10px;"
+                            class="markdown-body" v-html="marked(i.description)"> </div>
+                        <div v-if="i.language!=null||i.license!=null||i.stargazers_count!=0||i.forks_count!=0"
+                            style="font-size: 14px;">
+                            <el-tag style="margin: 2px;" size="small" v-if="i.language!=null">
+                                {{ i.language }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.license!=null">
+                                {{ i.license.spdx_id }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.stargazers_count!=0">
+                                {{ `${i.stargazers_count}★` }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.forks_count!=0">
+                                {{ `${i.forks_count}Ｙ` }} </el-tag>
+                        </div>
+                        <div v-if="i.description==null&&i.language==null&&i.license==null&&i.stargazers_count==0&&i.forks_count==0"
+                            style="font-style: italic; font-size: 14px;">
+                            No description </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-scrollbar>
+    </template>
+    <template id="blog">
+
+    </template>
+    <template id="code">
+
+    </template>
+    <script>
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHashHistory(),
+            routes: [
+                { path: '/', redirect: '/home/' },
+                {
+                    path: '/home/', component: {
+                        data() {
+                            return {
+                            }
+                        },
+                        template: '#home'
+                    }
+                },
+                {
+                    path: '/repo/', component: {
+                        data() {
+                            return {
+                                json: []
+                            }
+                        },
+                        mounted() {
+                            axios.get('https://api.github.com/users/xgugugu/repos?per_page=10000&sort=pushed')
+                                .then(response => (this.json = response.data))
+                                .catch(function (error) {
+                                    ElementPlus.ElMessage.error(`列表获取失败：${error}`);
+                                });
+                        },
+                        methods: {
+                            marked: function (str) {
+                                return marked.parse(str);
+                            }
+                        },
+                        template: '#repo'
+                    }
+                },
+                {
+                    path: '/blog/', component: {
+                        template: '#blog'
+                    }
+                },
+                {
+                    path: '/code/', component: {
+                        template: '#code'
+                    }
+                }
+            ]
+        });
+        const app = Vue.createApp({
+            data() {
+                return {
+                }
+            }
+        });
+        app.use(ElementPlus)
+        app.use(router);
+        app.mount('#app');
+    </script>
 </body>
 
 </html>
