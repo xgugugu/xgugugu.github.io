@@ -1,20 +1,345 @@
 <!DOCTYPE html>
-<html>
+<html style="overflow: hidden; height: 100%;">
 
 <head>
     <meta charset="utf-8">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/fomantic-ui/2.9.0/semantic.min.js"></script>
-    <link href="https://cdn.bootcdn.net/ajax/libs/fomantic-ui/2.9.0/semantic.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcdn.net/ajax/libs/marked/4.1.1/marked.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/4.1.6/vue-router.global.prod.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.full.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.27/index.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/marked/4.2.4/marked.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css"
+        rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/github.min.css" rel="stylesheet">
     <base target="_blank">
 </head>
 
-<body>
-    <script src="./index.js"></script>
+<body style="height: 100%;">
+    <div id="app" style="height: 100%;">
+        <el-container style="height: 100vh;">
+            <el-header style="margin-top: 2%; margin-left: 15%; margin-right: 15%;">
+                <el-menu router :default-active="($route.path+'      ').substring(0,6)" mode="horizontal"
+                    :ellipsis="false">
+                    <el-menu-item index="/home/" style="font-size: 16px;">主页</el-menu-item>
+                    <el-menu-item index="/repo/" style="font-size: 16px;">仓库</el-menu-item>
+                    <el-menu-item index="/blog/" style="font-size: 16px;">文章</el-menu-item>
+                    <el-menu-item index="/code/" style="font-size: 16px;">代码</el-menu-item>
+                </el-menu>
+            </el-header>
+            <el-main style="overflow: hidden; margin-top: 1%; margin-left: 14%; margin-right: 14%; margin-bottom: 5%;">
+                <router-view></router-view>
+            </el-main>
+        </el-container>
+    </div>
+    <template id="home">
+        <el-card style="margin: 10px;">
+            <article class="markdown-body entry-content container-lg f5" itemprop="text">
+                <h3 dir="auto">Here is xgugugu</h3>
+                <p dir="auto"><a rel="nofollow"><img
+                            src="https://camo.githubusercontent.com/fa7a45d0542c558f872d7286391a7c044e96cfa5fc2ddf7a3d2824d36529abb8/68747470733a2f2f6769746875622d726561646d652d73746174732e76657263656c2e6170702f6170693f757365726e616d653d786775677567752673686f775f69636f6e733d7472756526686964655f7469746c653d74727565267468656d653d7472616e73706172656e74"
+                            alt=""
+                            data-canonical-src="https://github-readme-stats.vercel.app/api?username=xgugugu&amp;show_icons=true&amp;hide_title=true&amp;theme=transparent"
+                            style="max-width: 100%;"></a></p>
+                <h4 dir="auto">Platform&amp;Tools</h4>
+                <p dir="auto"><a href="https://manjaro.org/" rel="nofollow"><img
+                            src="https://camo.githubusercontent.com/91c21a0436c9f9465ed9a23a86ec1cdc68d6f91424928d4e2f72f19b15c9e6cd/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4f532d4d616e6a61726f2d2532333335424635433f6c6f676f3d6d616e6a61726f"
+                            alt="" data-canonical-src="https://img.shields.io/badge/OS-Manjaro-%2335BF5C?logo=manjaro"
+                            style="max-width: 100%;"></a> <a href="https://reactos.org/" rel="nofollow"><img
+                            src="https://camo.githubusercontent.com/caa7b75511a571502f7ead1ba2aeefdd0994124993396f8a02acf91c0a4032ea/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f57696e646f77732d31312d2532333030373844363f6c6f676f3d77696e646f7773"
+                            alt="" data-canonical-src="https://img.shields.io/badge/Windows-11-%230078D6?logo=windows"
+                            style="max-width: 100%;"></a></p>
+                <p dir="auto"><a href="https://www.mozilla.org/zh-CN/firefox/" rel="nofollow"><img
+                            src="https://camo.githubusercontent.com/205f9e332f52d413795f95856bcd0f0e00b5e01c9b74bf7da52d45b37df60e30/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f42726f777365722d46697265666f782d2532334646373133393f6c6f676f3d66697265666f7862726f77736572"
+                            alt=""
+                            data-canonical-src="https://img.shields.io/badge/Browser-Firefox-%23FF7139?logo=firefoxbrowser"
+                            style="max-width: 100%;"></a> <a href="https://code.visualstudio.com/" rel="nofollow"><img
+                            src="https://camo.githubusercontent.com/adb5945b3573731af39d535267eb08b8be451ec0436847ed7e59a61d4655561a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4944452d56697375616c25323053747564696f253230436f64652d2532333030374143433f6c6f676f3d76697375616c73747564696f636f6465"
+                            alt=""
+                            data-canonical-src="https://img.shields.io/badge/IDE-Visual%20Studio%20Code-%23007ACC?logo=visualstudiocode"
+                            style="max-width: 100%;"></a></p>
+                <h4 dir="auto">Languages</h4>
+                <p dir="auto"><a><img
+                            src="https://camo.githubusercontent.com/0478dd7db20f8ff5b71a7c90bcd7529c6db072a11c5503a0d1186b7d047a6e34/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d432532422532422d2532333030353939433f6c6f676f3d63706c7573706c7573"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-C%2B%2B-%2300599C?logo=cplusplus"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/37230616e085ecc53db4feb116d9ec83f65e6a78bacba6da0a9fcaac0972e081/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d4a6176615363726970742d2532334637444631453f6c6f676f3d6a617661736372697074"
+                            alt=""
+                            data-canonical-src="https://img.shields.io/badge/-JavaScript-%23F7DF1E?logo=javascript"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/b004a0e91e90a4ee44c79bccaf7f0eb1536bd57fe4cc9f34a54d9fabeeb76392/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d48544d4c352d2532334533344632363f6c6f676f3d68746d6c35"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-HTML5-%23E34F26?logo=html5"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/e17f6f68002368b4d16108b6c180a04c16f9ec747838339130bc30b3247dcfb2/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d4e6f64654a532d2532333333393933333f6c6f676f3d6e6f64652e6a73"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-NodeJS-%23339933?logo=node.js"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/f1b0cc92a947d6998b840a909f3eed0b57e7d49711167d63d428f4982aef39db/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d4a6176612d2532333030373339363f6c6f676f3d6f70656e6a646b"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-Java-%23007396?logo=openjdk"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/0ccb16491e578bf0ab2c75efb2ed656e0a641c704d42e823dd9c9044d27c8444/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d527573742d2532333030303030303f6c6f676f3d72757374"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-Rust-%23000000?logo=rust"
+                            style="max-width: 100%;"></a> <a><img
+                            src="https://camo.githubusercontent.com/0e5e5c5cf2ddb031a5176c485ed5a6b45fff51205ff97327274ae115fc2eb9d8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d446c616e672d2532334230333933313f6c6f676f3d64"
+                            alt="" data-canonical-src="https://img.shields.io/badge/-Dlang-%23B03931?logo=d"
+                            style="max-width: 100%;"></a></p>
+            </article>
+        </el-card>
+    </template>
+    <template id="repo">
+        <el-scrollbar>
+            <el-row style="margin: 10px; margin-top: 0px;">
+                <el-col :span="8" v-for="i in json">
+                    <el-card shadow="hover" style="margin: 10px;">
+                        <template #header>
+                            <el-link :href="i.html_url" :underline="false">
+                                <div style="float: left; font-size: 16px;"> {{ i.full_name }} </div>
+                            </el-link>
+                            <el-tag disable-transitions round v-if="i.archived" type="warning" size="small"
+                                style="float: right;"> archive </el-tag>
+                        </template>
+                        <div v-if="i.description!=null" style="font-size: 15px; margin-bottom: 10px;"
+                            class="markdown-body" v-html="marked(i.description)"> </div>
+                        <div v-if="i.language!=null||i.license!=null||i.stargazers_count!=0||i.forks_count!=0"
+                            style="font-size: 14px;">
+                            <el-tag style="margin: 2px;" size="small" v-if="i.language!=null">
+                                {{ i.language }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.license!=null">
+                                {{ i.license.spdx_id }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.stargazers_count!=0">
+                                {{ `${i.stargazers_count}★` }} </el-tag>
+                            <el-tag style="margin: 2px;" size="small" v-if="i.forks_count!=0">
+                                {{ `${i.forks_count}Ｙ` }} </el-tag>
+                        </div>
+                        <div v-if="i.description==null&&i.language==null&&i.license==null&&i.stargazers_count==0&&i.forks_count==0"
+                            style="font-style: italic; font-size: 14px;">
+                            No description </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-scrollbar>
+    </template>
+    <template id="blog">
+        <div style="margin: 15px; margin-top: 5px; height: 90%;">
+            <el-input size="large" v-model="searchString" @input="search" placeholder="搜索...">
+                <template #prepend>
+                    <el-button style="width: 55px;" @click="showList=!showList">≡</el-button>
+                </template>
+            </el-input>
+            <el-menu @select="selectBlog" :default-active="issueId" :collapse-transition="false" :collapse="!showList"
+                :style="(showList?'':'width: 56px; float: left;')+'height: 100%;'">
+                <el-scrollbar>
+                    <el-menu-item style="height: 48px;" v-for="i in list" :index="i.number">
+                        <template #title>
+                            {{ i.title }}
+                        </template>
+                        {{ `#${i.number} ` }}
+                    </el-menu-item>
+                </el-scrollbar>
+            </el-menu>
+            <el-scrollbar>
+                <el-card v-show="!showList" shadow="never" style="height: 97%; border-radius: 0px;">
+                    <div class="markdown-body" v-html="issueHtml" style="padding-bottom: 50px; font-size: 15px;"></div>
+                    <div v-if="issueTime!=''" style="font-style: italic; font-size: 14px;"> By xgugugu, updated at {{
+                        issueTime }} </div>
+                    <el-empty v-if="issueHtml==''" />
+                </el-card>
+            </el-scrollbar>
+        </div>
+    </template>
+    <template id="code">
+        <el-input v-model="searchString" placeholder="搜索..." size="large"
+            style="padding-left: 20px; padding-right: 20px; padding-top: 5px;"></el-input>
+        <el-scrollbar>
+            <el-row style="margin: 10px;">
+                <el-col :span="12" v-for="i in list">
+                    <el-card shadow="hover" style="margin: 10px; " body-style="padding-top: 0px; padding-bottom: 0px;">
+                        <el-collapse>
+                            <el-collapse-item>
+                                <template #title>
+                                    <div style="font-size: 15px;">
+                                        {{ i.name }}
+                                    </div>
+                                </template>
+                                <div v-html="i.marked" class="markdown-body"
+                                    style="padding-top: 10px; font-size: 14px;"></div>
+                            </el-collapse-item>
+                        </el-collapse>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-scrollbar>
+    </template>
+    <script>
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHashHistory(),
+            routes: [
+                { path: '/', redirect: '/home/' },
+                {
+                    path: '/home/', component: {
+                        data() {
+                            return {
+                            }
+                        },
+                        mounted() {
+                            document.title = '主页 - Xgugugu';
+                        },
+                        template: '#home'
+                    }
+                },
+                {
+                    path: '/repo/', component: {
+                        data() {
+                            return {
+                                json: []
+                            }
+                        },
+                        mounted() {
+                            marked.setOptions({
+                                highlight: function (code) {
+                                    return hljs.highlightAuto(code).value;
+                                }
+                            });
+                            document.title = '仓库 - Xgugugu';
+                            axios.get('https://api.github.com/users/xgugugu/repos?per_page=100&sort=pushed')
+                                .then(response => (this.json = response.data))
+                                .catch(function (error) {
+                                    ElementPlus.ElMessage.error(`列表获取失败：${error}`);
+                                });
+                        },
+                        methods: {
+                            marked(str) {
+                                return marked.parse(str);
+                            }
+                        },
+                        template: '#repo'
+                    }
+                },
+                {
+                    path: '/blog/:id?', component: {
+                        data() {
+                            return {
+                                showList: true,
+                                searchString: '',
+                                issueId: parseInt(this.$route.params.id),
+                                json: [],
+                                issueHtml: '',
+                                issueTime: ''
+                            }
+                        },
+                        mounted() {
+                            marked.setOptions({
+                                highlight: function (code) {
+                                    return hljs.highlightAuto(code).value;
+                                }
+                            });
+                            document.title = '文章 - Xgugugu';
+                            this.showList = (this.$route.params.id == '');
+                            axios.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/issues?creator=xgugugu&state=open&per_page=100')
+                                .then((res) => {
+                                    this.json = res.data;
+                                    for (let i in this.json) {
+                                        if (this.json[i].number == this.issueId) {
+                                            this.issueHtml = marked.parse(this.json[i].body);
+                                            this.issueTime = new Date(this.json[i].updated_at).toLocaleString();
+                                            break;
+                                        }
+                                    }
+                                }).catch(function (error) {
+                                    ElementPlus.ElMessage.error(`列表获取失败：${error}`);
+                                });
+                        },
+                        computed: {
+                            list() {
+                                let retList = [];
+                                for (let i in this.json) {
+                                    if (this.json[i].body.search(this.searchString) != -1
+                                        || this.json[i].title.search(this.searchString) != -1) {
+                                        retList.push(this.json[i]);
+                                    }
+                                }
+                                return retList;
+                            }
+                        },
+                        methods: {
+                            marked(str) {
+                                return marked.parse(str);
+                            },
+                            selectBlog(id) {
+                                router.push(`/blog/${id}`);
+                                this.showList = (id == 0);
+                                for (let i in this.json) {
+                                    if (this.json[i].number == id) {
+                                        this.issueHtml = marked.parse(this.json[i].body);
+                                        this.issueTime = new Date(this.json[i].updated_at).toLocaleString();
+                                        break;
+                                    }
+                                }
+                            },
+                            search(str) {
+                                this.showList = (str != '' || this.issueHtml == '');
+                            }
+                        },
+                        template: '#blog'
+                    }
+                },
+                {
+                    path: '/code/', component: {
+                        data() {
+                            return {
+                                searchString: '',
+                                json: []
+                            }
+                        },
+                        mounted() {
+                            marked.setOptions({
+                                highlight: function (code) {
+                                    return hljs.highlightAuto(code).value;
+                                }
+                            });
+                            document.title = '代码 - Xgugugu';
+                            axios.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/releases?per_page=100')
+                                .then((response) => {
+                                    response.data.sort(function (x, y) {
+                                        return x.name.localeCompare(y.name);
+                                    });
+                                    for (let i in response.data) {
+                                        response.data[i]['marked'] = marked.parse(response.data[i].body);
+                                    }
+                                    this.json = response.data;
+                                })
+                                .catch(function (error) {
+                                    ElementPlus.ElMessage.error(`列表获取失败：${error}`);
+                                });
+                        },
+                        computed: {
+                            list() {
+                                let retList = [];
+                                for (let i in this.json) {
+                                    if (this.json[i].body.search(this.searchString) != -1
+                                        || this.json[i].name.search(this.searchString) != -1) {
+                                        retList.push(this.json[i]);
+                                    }
+                                }
+                                return retList;
+                            }
+                        },
+                        template: '#code'
+                    }
+                }
+            ]
+        });
+        const app = Vue.createApp({
+            data() {
+                return {
+                }
+            }
+        });
+        app.use(ElementPlus)
+        app.use(router);
+        app.mount('#app');
+    </script>
 </body>
 
 </html>

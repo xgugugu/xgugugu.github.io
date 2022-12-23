@@ -1,17 +1,13 @@
-# 个人网站
+# v2分支
 
-## 介绍
+现准备使用`vue3`+`element-plus`重写网站
 
-网址：<https://xgugugu.github.io/>
+进度：
 
-这是我首次尝试写SPA的单页网站
+- 12.21.noon 基本框架完成
 
-作为一位不会用vue的蒟蒻，只好用jquery手搓响应式了（其实jquery的链式函数调用还是挺好用的）
+- 12.22.morning 仓库页面完成
 
-由于没有用虚拟DOM树，所以在浏览器拓展比较多（或者电脑性能比较差）的情况下可能会有些卡顿
+- 12.23.morning 文章页面完成
 
-网页源代码基于GPLv2许可证开源
-
-### 旧版
-
-曾经的 [xgugugu/home](https://github.com/xgugugu/home) 和 [xgugugu/blog](https://github.com/xgugugu/blog) 的网页代码已全部移至 [old](https://github.com/xgugugu/xgugugu.github.io/tree/main/old) 目录
+- 12.13.afternoon 主页、代码页面完成
