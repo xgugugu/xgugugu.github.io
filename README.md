@@ -1,13 +1,5 @@
-# v2分支
+# 个人网站
 
-现准备使用`vue3`+`element-plus`重写网站
+网址：<https://xgugugu.github.io/>
 
-进度：
-
-- 12.21.noon 基本框架完成
-
-- 12.22.morning 仓库页面完成
-
-- 12.23.morning 文章页面完成
-
-- 12.13.afternoon 主页、代码页面完成
+源代码基于GPLv2许可证开源
