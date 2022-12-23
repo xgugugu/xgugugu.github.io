@@ -68,23 +68,28 @@
         </el-scrollbar>
     </template>
     <template id="blog">
-        <div style="height: 100%;">
-            <el-input v-model="search">
+        <div style="margin: 15px; height: 90%;">
+            <el-input v-model="searchString" @input="search" placeholder="搜索...">
                 <template #prepend>
                     <el-button style="width: 55px;" @click="showList=!showList">≡</el-button>
                 </template>
             </el-input>
             <el-menu @select="selectBlog" :default-active="issueId" :collapse-transition="false" :collapse="!showList"
-                :style="showList?'':'width: 56px; float: left;'">
-                <el-menu-item style="height: 40px;" v-for="i in json" :index="i.number">
-                    <template #title> {{ i.title }} </template>
-                    {{ `#${i.number}` }}
-                </el-menu-item>
+                :style="(showList?'':'width: 56px; float: left;')+'height: 100%;'">
+                <el-scrollbar>
+                    <el-menu-item style="height: 48px;" v-for="i in list" :index="i.number">
+                        <template #title>
+                            {{ i.title }}
+                        </template>
+                        {{ `#${i.number} ` }}
+                    </el-menu-item>
+                </el-scrollbar>
             </el-menu>
             <el-scrollbar>
-                <el-card v-show="!showList" shadow="never" style="padding-bottom: 50px;">
-                    <div class="markdown-body" v-html="issueHtml"></div>
-                    <el-empty v-if="issueHtml==''" />
+                <el-card v-show="!showList" shadow="never" style="height: 97%; border-radius: 0px;">
+                    <div class="markdown-body" v-html="issueHtml" style="padding-bottom: 50px; font-size: 15px;"></div>
+                    <div v-if="issueTime!=''" style="font-style: italic; font-size: 14px;"> By xgugugu, updated at {{
+                        issueTime }} </div>
                 </el-card>
             </el-scrollbar>
         </div>
@@ -133,26 +138,40 @@
                         data() {
                             return {
                                 showList: true,
-                                search: '',
+                                searchString: '',
                                 issueId: parseInt(this.$route.params.id),
                                 json: [],
-                                issueHtml: ''
+                                issueHtml: '',
+                                issueTime: ''
                             }
                         },
                         mounted() {
-                            this.showList = (this.id == 0);
+                            this.showList = (this.$route.params.id == '');
                             axios.get('https://api.github.com/repos/xgugugu/xgugugu.github.io/issues?creator=xgugugu&state=open&per_page=100')
                                 .then((res) => {
                                     this.json = res.data;
                                     for (let i in this.json) {
                                         if (this.json[i].number == this.issueId) {
                                             this.issueHtml = marked.parse(this.json[i].body);
+                                            this.issueTime = new Date(this.json[i].updated_at).toLocaleString();
                                             break;
                                         }
                                     }
                                 }).catch(function (error) {
                                     ElementPlus.ElMessage.error(`列表获取失败：${error}`);
                                 });
+                        },
+                        computed: {
+                            list() {
+                                let retList = [];
+                                for (let i in this.json) {
+                                    if (this.json[i].body.search(this.searchString) != -1
+                                        || this.json[i].title.search(this.searchString) != -1) {
+                                        retList.push(this.json[i]);
+                                    }
+                                }
+                                return retList;
+                            }
                         },
                         methods: {
                             marked(str) {
@@ -164,9 +183,13 @@
                                 for (let i in this.json) {
                                     if (this.json[i].number == id) {
                                         this.issueHtml = marked.parse(this.json[i].body);
+                                        this.issueTime = new Date(this.json[i].updated_at).toLocaleString();
                                         break;
                                     }
                                 }
+                            },
+                            search(str) {
+                                this.showList = (str != '' || this.issueHtml == '');
                             }
                         },
                         template: '#blog'
